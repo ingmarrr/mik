@@ -3,8 +3,8 @@ name = "mik"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
+derive_more = { verion = "1.0.0-beta", features = ["from", "display"] }
+
 clap = { version = "4.4.8", features = ["derive", "env"] }
 thiserror = "1.0.50"

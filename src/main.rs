@@ -1,4 +1,5 @@
 use clap::Parser;
+use mik::lexer::Lexer;
 
 #[derive(clap::Parser)]
 struct App {
@@ -20,9 +21,17 @@ fn main() {
 
     match app.cmd {
         Cmd::Run { file } => {
-            let asm = mik::gen();
-            mik::write(&file, &asm);
-            mik::run(&file).unwrap();
+            let source = std::fs::read_to_string(&file).expect("failed to read file");
+            let lexer = Lexer::new_file(&file, &source);
+            let tokens = lexer.tokenize();
+            for token in tokens.into_iter() {
+                // print alignment
+                println!(
+                    "[INFO] {:.<30} '{:}'",
+                    tokens.kind_of(&token).to_string(),
+                    tokens.str_of(&token).escape_debug(),
+                )
+            }
         }
     }
 }
